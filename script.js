@@ -87,7 +87,7 @@ var characters = [
     }
 ];
 
-const moveConst = 3;
+const moveConst = 10;
 var characterId = 0;
 
 
@@ -184,30 +184,39 @@ function keyboard(event) {
     var y = characters[characterId].y;
     var r = characters[characterId].size;
     if(event.key == "w"){
-        if(collidedObject(x,y - moveConst,r)){
-            characters[characterId].y -= moveConst;
+        for (let i = 0; i < moveConst; i++) {
+            if(!collidedObject(x,y - 1,r)){
+                characters[characterId].y -= 1;
+                y-=1;
+            }
         }
-        writeMap()
+        
     }
     else if(event.key == "s"){
-        if(!collidedObject(x,y + moveConst,r)){
-            characters[characterId].y += moveConst;
+        for (let i = 0; i < moveConst; i++) {
+            if(!collidedObject(x,y + 1,r)){
+                characters[characterId].y += 1;
+                y+=1;
+            }
         }
-        writeMap()
     }
     else if(event.key == "a"){
-        if(!collidedObject(x - moveConst,y,r)){
-            characters[characterId].x -= moveConst;
+        for (let i = 0; i < moveConst; i++) {
+            if(!collidedObject(x - 1,y,r)){
+                characters[characterId].x -= 1;
+                x-=1;
+            }
         }
-        writeMap()
     }
     else if(event.key == "d"){
-        if(!collidedObject(x + moveConst,y,r)){
-            characters[characterId].x += moveConst;
+        for (let i = 0; i < moveConst; i++) {
+            if(!collidedObject(x + 1,y,r)){
+                characters[characterId].x += 1;
+                x+=1;
+            }
         }
-        writeMap()
     }
-
+    writeMap()
 }
 
 function roundedRect(ctx, x, y, width, height, radius) {
@@ -222,27 +231,43 @@ function roundedRect(ctx, x, y, width, height, radius) {
 }
 
 function collidedObject(x, y, r){
+    var privChar = {
+        x: x,
+        y: y,
+        w: r,
+        h: r
+    }
     for (let i = 0; i < border.length; i++) {
         var current = border[i];
-        if (collision(characters[characterId],
-            {
-                x: current[0],
-            }
-            ))
+        if (collision(privChar, {x: current[0], y: current[1], w: current[2], h: current[3]}))
         {
             return true;
         }
     }
     for (let i = 0; i < lines.length; i++) {
         var current = lines[i];
-        ctx.fillRect(current[0], current[1], current[2], current[3]);
+        if (collision(privChar, {x: current[0], y: current[1], w: current[2], h: current[3]}))
+        {
+            return true;
+        }
     }
+    for (let i = 0; i < gates.length; i++) {
+        var current = gates[i];
+        if (collision(privChar, {x: current[0], y: current[1], w: current[2], h: current[3]}))
+        {
+            if(current[5]){
+                return true;
+            }
+            
+        }
+    }
+
 
     return false;
 }
 
 function collision(A, B) {
     return !(((A.y+A.h)<(B.y))||(A.y>(B.y+B.h))||((A.x+A.w)<B.x)||(A.x>(B.x+B.w)));
-  }
+}
 
 //#endregion
