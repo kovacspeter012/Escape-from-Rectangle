@@ -180,26 +180,29 @@ function keyboard(event) {
         writeMap();
         return;
     }
+    var x = characters[characterId].x;
+    var y = characters[characterId].y;
+    var r = characters[characterId].size;
     if(event.key == "w"){
-        if(characters[characterId].y){
+        if(collidedObject(x,y - moveConst,r)){
             characters[characterId].y -= moveConst;
         }
         writeMap()
     }
     else if(event.key == "s"){
-        if(characters[characterId].y){
+        if(!collidedObject(x,y + moveConst,r)){
             characters[characterId].y += moveConst;
         }
         writeMap()
     }
     else if(event.key == "a"){
-        if(characters[characterId].x){
+        if(!collidedObject(x - moveConst,y,r)){
             characters[characterId].x -= moveConst;
         }
         writeMap()
     }
     else if(event.key == "d"){
-        if(characters[characterId].x){
+        if(!collidedObject(x + moveConst,y,r)){
             characters[characterId].x += moveConst;
         }
         writeMap()
@@ -217,5 +220,29 @@ function roundedRect(ctx, x, y, width, height, radius) {
     // ctx.stroke();
     ctx.fill();
 }
+
+function collidedObject(x, y, r){
+    for (let i = 0; i < border.length; i++) {
+        var current = border[i];
+        if (collision(characters[characterId],
+            {
+                x: current[0],
+            }
+            ))
+        {
+            return true;
+        }
+    }
+    for (let i = 0; i < lines.length; i++) {
+        var current = lines[i];
+        ctx.fillRect(current[0], current[1], current[2], current[3]);
+    }
+
+    return false;
+}
+
+function collision(A, B) {
+    return !(((A.y+A.h)<(B.y))||(A.y>(B.y+B.h))||((A.x+A.w)<B.x)||(A.x>(B.x+B.w)));
+  }
 
 //#endregion
