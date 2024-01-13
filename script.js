@@ -52,7 +52,7 @@ var moveable = [
 var gates = [
     [250,30,2,40,"green",false], //bool - active
     [400,430,2,66,"purple",false],
-    [500,150,2,100,"orange",true],
+    [500,150,2,100,"orange",false],
     [800,45,2,35,"teal",true],
     [850,128,100,2,"brown",true],
     [900,352,2,108,"pink",true],
@@ -272,23 +272,27 @@ function collidedObject(x, y, r, direction, isCharacter = true){
                     return true;
                 }
                 for (let j = 0; j < moveConst; j++) {
-                    if (direction == 0) {
-                        current[1] -= 1;
+                    if (!collidedObject(current[0], current[1], current[2], 123, false)){
+                       
+                        if (direction == 0) {
+                            current[1] -= 1;
+                        }
+                        else if (direction == 1) {
+                            current[1] += 1;
+                        }
+                        else if (direction == 2) {
+                            current[0] -= 1;
+                        }
+                        else if (direction == 3) {
+                            current[0] += 1;
+                        }
+                        moveable[i][0] = current[0];
+                        moveable[i][1] = current[1];
                     }
-                    else if (direction == 1) {
-                        current[1] += 1;
-                    }
-                    else if (direction == 2) {
-                        current[0] -= 1;
-                    }
-                    else if (direction == 3) {
-                        current[0] += 1;
-                    }
-                    if (collidedObject(current[0], current[1], current[2], 123, false)){
-                        return true
-                    }
-                    moveable[i][0] = current[0];
-                    moveable[i][1] = current[1];
+                    else{return true}
+                    
+                    
+                    
                     
                 }
             }
