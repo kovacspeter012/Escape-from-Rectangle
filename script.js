@@ -50,8 +50,8 @@ var moveable = [
 ];
 
 var gates = [
-    [250,30,2,40,"green",true], //bool - active
-    [400,430,2,66,"purple",true],
+    [250,30,2,40,"green",false], //bool - active
+    [400,430,2,66,"purple",false],
     [500,150,2,100,"orange",true],
     [800,45,2,35,"teal",true],
     [850,128,100,2,"brown",true],
@@ -183,39 +183,40 @@ function keyboard(event) {
     var x = characters[characterId].x;
     var y = characters[characterId].y;
     var r = characters[characterId].size;
-    if(event.key == "w"){
+    if(event.key == "w" || event.key == "W"){
         for (let i = 0; i < moveConst; i++) {
-            if(!collidedObject(x,y - 1,r)){
+            if(!collidedObject(x,y - 1,r, 0)){
                 characters[characterId].y -= 1;
                 y-=1;
             }
         }
         
     }
-    else if(event.key == "s"){
+    else if(event.key == "s" || event.key == "S"){
         for (let i = 0; i < moveConst; i++) {
-            if(!collidedObject(x,y + 1,r)){
+            if(!collidedObject(x,y + 1,r, 1)){
                 characters[characterId].y += 1;
                 y+=1;
             }
         }
     }
-    else if(event.key == "a"){
+    else if(event.key == "a" || event.key == "A"){
         for (let i = 0; i < moveConst; i++) {
-            if(!collidedObject(x - 1,y,r)){
+            if(!collidedObject(x - 1,y,r, 2)){
                 characters[characterId].x -= 1;
                 x-=1;
             }
         }
     }
-    else if(event.key == "d"){
+    else if(event.key == "d" || event.key == "D"){
         for (let i = 0; i < moveConst; i++) {
-            if(!collidedObject(x + 1,y,r)){
+            if(!collidedObject(x + 1,y,r, 3)){
                 characters[characterId].x += 1;
                 x+=1;
             }
         }
     }
+    testCircle(x,y,r)
     writeMap()
 }
 
@@ -230,7 +231,7 @@ function roundedRect(ctx, x, y, width, height, radius) {
     ctx.fill();
 }
 
-function collidedObject(x, y, r){
+function collidedObject(x, y, r, direction, isCharacter = true){
     var privChar = {
         x: x,
         y: y,
@@ -262,12 +263,90 @@ function collidedObject(x, y, r){
         }
     }
 
+    if (isCharacter) {
+        for (let i = 0; i < moveable.length; i++) {
+            var current = moveable[i];
+            if (collision(privChar, {x: current[0], y: current[1], w: current[2], h: current[3]}))
+            {
+                if (characterId != 0){
+                    return true;
+                }
+                for (let j = 0; j < moveConst; j++) {
+                    if (direction == 0) {
+                        current[1] -= 1;
+                    }
+                    else if (direction == 1) {
+                        current[1] += 1;
+                    }
+                    else if (direction == 2) {
+                        current[0] -= 1;
+                    }
+                    else if (direction == 3) {
+                        current[0] += 1;
+                    }
+                    if (collidedObject(current[0], current[1], current[2], 123, false)){
+                        return true
+                    }
+                    moveable[i][0] = current[0];
+                    moveable[i][1] = current[1];
+                    
+                }
+            }
+        }
+    }
+    
+
+
 
     return false;
 }
 
 function collision(A, B) {
     return !(((A.y+A.h)<(B.y))||(A.y>(B.y+B.h))||((A.x+A.w)<B.x)||(A.x>(B.x+B.w)));
+}
+
+function testCircle(x,y,r) {
+    // green
+    if (Math.abs((circles[0][0] + 16) - (x + 25)) < Math.abs(r/2) && Math.abs((circles[0][1] + 16) - (y + 25)) < Math.abs(r/2)){
+        circles[0][4] = true;
+        gates[0][5] = false;
+    }
+    else{
+        circles[0][4] = false;
+        gates[0][5] = true;
+    }
+    //purple
+    if (Math.abs((circles[1][0] + 16) - (x + 25)) < Math.abs(r/2) && Math.abs((circles[1][1] + 16) - (y + 25)) < Math.abs(r/2)){
+        circles[1][4] = true;
+        gates[1][5] = false;
+    }
+    //orange
+
+    //teal1
+    if (Math.abs((circles[3][0] + 16) - (x + 25)) < Math.abs(r/2) && Math.abs((circles[3][1] + 16) - (y + 25)) < Math.abs(r/2)){
+        circles[3][4] = true;
+    }
+    //teal2
+    if (Math.abs((circles[4][0] + 16) - (x + 25)) < Math.abs(r/2) && Math.abs((circles[4][1] + 16) - (y + 25)) < Math.abs(r/2)){
+        circles[4][4] = true;
+    }
+
+    if (circles[3][4] && circles[4][4]){
+        gates[3][5]
+    }
+
+    //brown
+    if (Math.abs((circles[5][0] + 16) - (x + 25)) < Math.abs(r/2) && Math.abs((circles[5][1] + 16) - (y + 25)) < Math.abs(r/2)){
+        circles[5][4] = true;
+        gates[4][5] = false;
+    }
+    //pink
+    if (Math.abs((circles[6][0] + 16) - (x + 25)) < Math.abs(r/2) && Math.abs((circles[6][1] + 16) - (y + 25)) < Math.abs(r/2)){
+        circles[6][4] = true;
+        gates[5][5] = false;
+    }
+    //yellow
+
 }
 
 //#endregion
