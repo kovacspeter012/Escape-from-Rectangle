@@ -21,8 +21,8 @@ const lines = [
     [0,400,250,2],
     [250,400,2,20],
     [250,480,2,20],
-    [400,360,20,2],
-    [480,360,20,2],
+    [400,360,10,2],
+    [490,360,10,2],
     [400,360,2,70],
     // közép
     [500,0,2,150],
@@ -52,7 +52,7 @@ var moveable = [
 var gates = [
     [250,30,2,40,"green",false], //bool - active
     [400,430,2,66,"purple",false],
-    [500,150,2,100,"orange",false],
+    [500,150,2,100,"orange",true],
     [800,45,2,35,"teal",true],
     [850,128,100,2,"brown",true],
     [900,352,2,108,"pink",true],
@@ -62,12 +62,12 @@ var gates = [
 var circles = [
     [50,325,25,"green",false], //bool - pressed
     [200,114,25,"purple",false],
-    [438,25,55,"orange",false],
+    [425,25,55,"orange",false],
     [760,25,25,"teal",false],
-    [938,270,25,"teal",false],
+    [925,270,55,"teal",false],
     [850,80,25,"brown",false],
     [560,12,25,"pink",false],
-    [800,250,55,"yellow",false],
+    [700,200,55,"yellow",false],
 ];
 
 var characters = [
@@ -311,27 +311,26 @@ function collision(A, B) {
 
 function testCircle(x,y,r) {
     // green
-    if (Math.abs((circles[0][0] + 16) - (x + 25)) < Math.abs(r/2) && Math.abs((circles[0][1] + 16) - (y + 25)) < Math.abs(r/2)){
+    if (Math.abs((circles[0][0] + 13) - (x + 25)) < Math.abs(r/2) && Math.abs((circles[0][1] + 13) - (y + 25)) < Math.abs(r/2)){
         circles[0][4] = true;
         gates[0][5] = false;
     }
-    else{
-        circles[0][4] = false;
-        gates[0][5] = true;
-    }
     //purple
-    if (Math.abs((circles[1][0] + 16) - (x + 25)) < Math.abs(r/2) && Math.abs((circles[1][1] + 16) - (y + 25)) < Math.abs(r/2)){
+    if (Math.abs((circles[1][0] + 13) - (x + 25)) < Math.abs(r/2) && Math.abs((circles[1][1] + 13) - (y + 25)) < Math.abs(r/2)){
         circles[1][4] = true;
         gates[1][5] = false;
     }
     //orange
-
+    if (Math.abs((circles[2][0] + 25) - (moveable[0][0] + 25)) < Math.abs(moveable[0][2]/2) && Math.abs((circles[2][1] + 25) - (moveable[0][1] + 25)) < Math.abs(moveable[0][2]/2)){
+        circles[2][4] = true;
+        gates[2][5] = false;
+    }
     //teal1
-    if (Math.abs((circles[3][0] + 16) - (x + 25)) < Math.abs(r/2) && Math.abs((circles[3][1] + 16) - (y + 25)) < Math.abs(r/2)){
+    if (Math.abs((circles[3][0] + 13) - (x + 25)) < Math.abs(r/2) && Math.abs((circles[3][1] + 13) - (y + 25)) < Math.abs(r/2)){
         circles[3][4] = true;
     }
     //teal2
-    if (Math.abs((circles[4][0] + 16) - (x + 25)) < Math.abs(r/2) && Math.abs((circles[4][1] + 16) - (y + 25)) < Math.abs(r/2)){
+    if (Math.abs((circles[4][0] + 13) - (moveable[1][0] + 25)) < Math.abs(moveable[1][2]/2) && Math.abs((circles[4][1] + 13) - (moveable[1][1] + 25)) < Math.abs(moveable[1][2]/2)){
         circles[4][4] = true;
     }
 
@@ -340,17 +339,20 @@ function testCircle(x,y,r) {
     }
 
     //brown
-    if (Math.abs((circles[5][0] + 16) - (x + 25)) < Math.abs(r/2) && Math.abs((circles[5][1] + 16) - (y + 25)) < Math.abs(r/2)){
+    if (Math.abs((circles[5][0] + 13) - (x + 25)) < Math.abs(r/2) && Math.abs((circles[5][1] + 13) - (y + 25)) < Math.abs(r/2)){
         circles[5][4] = true;
         gates[4][5] = false;
     }
     //pink
-    if (Math.abs((circles[6][0] + 16) - (x + 25)) < Math.abs(r/2) && Math.abs((circles[6][1] + 16) - (y + 25)) < Math.abs(r/2)){
+    if (Math.abs((circles[6][0] + 13) - (x + 25)) < Math.abs(r/2) && Math.abs((circles[6][1] + 13) - (y + 25)) < Math.abs(r/2)){
         circles[6][4] = true;
         gates[5][5] = false;
     }
     //yellow
-
+    if (Math.abs((circles[7][0] + 25) - (moveable[1][0] + 25)) < Math.abs(moveable[1][2]/2) && Math.abs((circles[7][1] + 25) - (moveable[1][1] + 25)) < Math.abs(moveable[1][2]/2)){
+        circles[7][4] = true;
+        gates[6][5] = false;
+    }
 }
 
 //#endregion
