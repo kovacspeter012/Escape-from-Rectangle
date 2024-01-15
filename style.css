@@ -1,0 +1,16 @@
+body{
+    background-color: lightgrey;
+}
+.container{
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+canvas{
+    margin: 0 auto;
+    display: block;
+}
+h1,h2,p{
+    text-align: center;
+}
+ul{
+    margin-left: 40vw;
+}
