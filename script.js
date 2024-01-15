@@ -50,8 +50,8 @@ var moveable = [
 ];
 
 var gates = [
-    [250,30,2,40,"green",false], //bool - active
-    [400,430,2,66,"purple",false],
+    [250,30,2,40,"green",true], //bool - active
+    [400,430,2,66,"purple",true],
     [500,150,2,100,"orange",true],
     [800,45,2,35,"teal",true],
     [850,128,100,2,"brown",true],
@@ -329,12 +329,12 @@ function testCircle(x,y,r) {
         circles[3][4] = true;
     }
     //teal2
-    if (Math.abs((circles[4][0] + 13) - (moveable[1][0] + 25)) < Math.abs(moveable[1][2]/2) && Math.abs((circles[4][1] + 13) - (moveable[1][1] + 25)) < Math.abs(moveable[1][2]/2)){
+    if (Math.abs((circles[4][0] + 25) - (moveable[1][0] + 25)) < Math.abs(moveable[1][2]/2) && Math.abs((circles[4][1] + 25) - (moveable[1][1] + 25)) < Math.abs(moveable[1][2]/2)){
         circles[4][4] = true;
     }
 
     if (circles[3][4] && circles[4][4]){
-        gates[3][5]
+        gates[3][5] = false;
     }
 
     //brown
