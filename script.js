@@ -1,13 +1,17 @@
 const canvas = document.getElementById("cvs");
 const ctx = canvas.getContext("2d");
 
+const wintext = document.getElementById("wtxt");
+
 const border = [
     [0,0,1000,4],
     [0,496,1000,4],
     [0,0,4,500],
     [996,0,4,20], //kapu
-    [996,50,4,449],
+    [996,110,4,449],
 ];
+
+const win_line = [996,20,4,90];
 
 const lines = [
     // bal-fent
@@ -76,14 +80,16 @@ var characters = [
         y: 423,
         size: 50,
         radius: 15,
-        color: "red"
+        color: "red",
+        end: false
     },
     {
         x: 70,
         y: 39,
         size: 30,
         radius: 11,
-        color: "blue"
+        color: "blue",
+        end: false
     }
 ];
 
@@ -174,7 +180,25 @@ function colormap(color) {
     
 }
 
+async function win(){
+    if (canvas.style.visibility != "hidden"){
+        canvas.style.visibility = "hidden";
+        wintext.style.visibility = "visible";
+        for (let i = 0; i <= 100; i++) {
+            wintext.style.opacity = `${i/100}`;
+            await new Promise(r => setTimeout(r, 9));
+        }
+        
+    }
+    
+    return;
+}
 function keyboard(event) {
+    if(characters[0].end && characters[1].end){
+        win();
+        return;
+    }
+
     if(event.key == " "){
         characterId = characterId == 0 ? 1 : 0;
         writeMap();
@@ -264,6 +288,11 @@ function collidedObject(x, y, r, direction, isCharacter = true){
     }
 
     if (isCharacter) {
+        if (collision(privChar, {x: win_line[0], y: win_line[1], w: win_line[2], h: win_line[3]}))
+        {
+            characters[characterId].end = true;
+        }
+
         for (let i = 0; i < moveable.length; i++) {
             var current = moveable[i];
             if (collision(privChar, {x: current[0], y: current[1], w: current[2], h: current[3]}))
