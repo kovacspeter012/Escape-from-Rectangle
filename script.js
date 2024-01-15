@@ -180,9 +180,17 @@ function colormap(color) {
     
 }
 
-function win(){
-    canvas.style.visibility = "hidden";
-    wintext.style.visibility = "visible";
+async function win(){
+    if (canvas.style.visibility != "hidden"){
+        canvas.style.visibility = "hidden";
+        wintext.style.visibility = "visible";
+        for (let i = 0; i <= 100; i++) {
+            wintext.style.opacity = `${i/100}`;
+            await new Promise(r => setTimeout(r, 9));
+        }
+        
+    }
+    
     return;
 }
 function keyboard(event) {
