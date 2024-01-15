@@ -185,7 +185,7 @@ function keyboard(event) {
     var r = characters[characterId].size;
     if(event.key == "w" || event.key == "W"){
         for (let i = 0; i < moveConst; i++) {
-            if(!collidedObject(x,y - 1,r, 0)){
+            if(!collidedObject(x + 1,y - 1 + 1,r - 2, 0)){
                 characters[characterId].y -= 1;
                 y-=1;
             }
@@ -194,7 +194,7 @@ function keyboard(event) {
     }
     else if(event.key == "s" || event.key == "S"){
         for (let i = 0; i < moveConst; i++) {
-            if(!collidedObject(x,y + 1,r, 1)){
+            if(!collidedObject(x + 1,y + 1 + 1,r - 2, 1)){
                 characters[characterId].y += 1;
                 y+=1;
             }
@@ -202,7 +202,7 @@ function keyboard(event) {
     }
     else if(event.key == "a" || event.key == "A"){
         for (let i = 0; i < moveConst; i++) {
-            if(!collidedObject(x - 1,y,r, 2)){
+            if(!collidedObject(x - 1 + 1,y + 1,r - 2, 2)){
                 characters[characterId].x -= 1;
                 x-=1;
             }
@@ -210,7 +210,7 @@ function keyboard(event) {
     }
     else if(event.key == "d" || event.key == "D"){
         for (let i = 0; i < moveConst; i++) {
-            if(!collidedObject(x + 1,y,r, 3)){
+            if(!collidedObject(x + 1 + 1,y + 1,r - 2, 3)){
                 characters[characterId].x += 1;
                 x+=1;
             }
@@ -268,33 +268,32 @@ function collidedObject(x, y, r, direction, isCharacter = true){
             var current = moveable[i];
             if (collision(privChar, {x: current[0], y: current[1], w: current[2], h: current[3]}))
             {
+                // console.log(current);
                 if (characterId != 0){
                     return true;
                 }
-                for (let j = 0; j < moveConst; j++) {
-                    if (!collidedObject(current[0], current[1], current[2], 123, false)){
-                       
-                        if (direction == 0) {
-                            current[1] -= 1;
-                        }
-                        else if (direction == 1) {
-                            current[1] += 1;
-                        }
-                        else if (direction == 2) {
-                            current[0] -= 1;
-                        }
-                        else if (direction == 3) {
-                            current[0] += 1;
-                        }
-                        moveable[i][0] = current[0];
-                        moveable[i][1] = current[1];
-                    }
-                    else{return true}
-                    
-                    
-                    
-                    
+                if (direction == 0 && !collidedObject(current[0] + 1, current[1] + 1 - 1, current[2] - 2, 123, false)) {
+                    current[1] -= 1;
                 }
+                else if (direction == 1 && !collidedObject(current[0] + 1, current[1] + 1 + 1, current[2] - 2, 123, false)) {
+                    current[1] += 1;
+                }
+                else if (direction == 2 && !collidedObject(current[0] + 1 - 1, current[1] + 1, current[2] - 2, 123, false)) {
+                    current[0] -= 1;
+                }
+                else if (direction == 3 && !collidedObject(current[0] + 1 + 1, current[1] + 1, current[2] - 2, 123, false)) {
+                    current[0] += 1;
+                }
+                else{
+                    return true
+                }
+                // if (){
+                //     console.log(current);
+                //     
+                // }
+                moveable[i][0] = current[0];
+                moveable[i][1] = current[1];
+                
             }
         }
     }
