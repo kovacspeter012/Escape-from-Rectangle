@@ -1,5 +1,6 @@
 body{
     background-color: lightgrey;
+    overflow: hidden;
 }
 .container{
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
@@ -13,4 +14,11 @@ h1,h2,p{
 }
 ul{
     margin-left: 40vw;
+}
+#wtxt{
+    opacity: 0;
+    top: 20vw;
+    left: 43vw;
+    font-size: 3rem;
+    color: green;
 }

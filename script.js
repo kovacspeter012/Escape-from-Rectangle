@@ -98,7 +98,6 @@ var characterId = 0;
 
 
 
-
 window.addEventListener('keydown', keyboard);
 
 
