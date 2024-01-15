@@ -4,6 +4,7 @@ body{
 }
 .container{
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    height: 700px;
 }
 canvas{
     margin: 0 auto;
@@ -17,8 +18,10 @@ ul{
 }
 #wtxt{
     opacity: 0;
-    top: 20vw;
-    left: 43vw;
+    top: 350px;
+    width: 100%;
+    text-align: center;
+    margin: 0 auto;
     font-size: 3rem;
     color: green;
 }
