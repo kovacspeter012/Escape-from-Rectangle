@@ -112,6 +112,15 @@ function writeMap(){
         var current = lines[i];
         ctx.fillRect(current[0], current[1], current[2], current[3]);
     }
+    for (let i = 0; i < circles.length; i++) {
+        var current = circles[i];
+        ctx.fillStyle = colormap(current[3]);
+        ctx.beginPath();
+        ctx.arc(current[0] + current[2] / 2, current[1] + current[2] / 2, current[2] / 2, 0, 2*Math.PI);
+
+        ctx.fill();
+        
+    }
     for (let i = 0; i < moveable.length; i++) {
         var current = moveable[i];
         ctx.fillStyle = colormap("darkred");
@@ -123,15 +132,6 @@ function writeMap(){
             ctx.fillStyle = colormap(current[4]);
             ctx.fillRect(current[0], current[1], current[2], current[3]);
         }
-        
-    }
-    for (let i = 0; i < circles.length; i++) {
-        var current = circles[i];
-        ctx.fillStyle = colormap(current[3]);
-        ctx.beginPath();
-        ctx.arc(current[0] + current[2] / 2, current[1] + current[2] / 2, current[2] / 2, 0, 2*Math.PI);
-
-        ctx.fill();
         
     }
     for (let i = 0; i < characters.length; i++) {
